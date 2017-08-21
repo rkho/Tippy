@@ -37,17 +37,12 @@ class ViewController: UIViewController {
         let tip = bill * tipPercentages[tipAmount.selectedSegmentIndex]
         let total = bill + tip
         
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+        tipLabel.text = String(format: "%.2f", tip)
+        totalLabel.text = String(format: "%.2f", total)
     }
     
     @IBAction func tipValueChanged(_ sender: Any) {
-        if tipAmount.selectedSegmentIndex < 3 {
-            print("value under 3")
-            calculateTip(1)
-        } else {
-            print("other")
-        }
+        calculateTip(1)
     }
 }
 
