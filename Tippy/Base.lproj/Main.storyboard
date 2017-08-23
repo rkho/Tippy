@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="ga9-wy-m3S">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="ga9-wy-m3S">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,6 +12,13 @@
         <!--Tippy-->
         <scene sceneID="tne-QT-ifu">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="hPk-TN-Qzm"/>
+                <tapGestureRecognizer id="Vyf-v6-gmv">
+                    <connections>
+                        <action selector="onTap:" destination="BYZ-38-t0r" id="Whe-Ov-EJb"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Tippy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -107,9 +114,17 @@
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Vyf-v6-gmv" appends="YES" id="yLJ-57-NvF"/>
                             <outletCollection property="gestureRecognizers" destination="hPk-TN-Qzm" appends="YES" id="9Tz-PP-Pgp"/>
+                            <outletCollection property="gestureRecognizers" destination="Z3D-md-MyO" appends="YES" id="8Wl-05-j1E"/>
+                            <outletCollection property="gestureRecognizers" destination="F2u-Be-TFK" appends="YES" id="2gj-N7-PHq"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Tippy" id="zMb-MC-6aO"/>
+                    <navigationItem key="navigationItem" title="Tippy" id="zMb-MC-6aO">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="qAF-3K-R9y">
+                            <connections>
+                                <segue destination="1tK-26-rs4" kind="push" id="4Wn-hc-uJb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="billField" destination="nwy-or-4O2" id="Xet-Pd-qwu"/>
                         <outlet property="tipAmount" destination="EVL-lP-xFg" id="Pxx-ke-Edf"/>
@@ -117,15 +132,79 @@
                         <outlet property="totalLabel" destination="KD3-Zu-cHJ" id="mJc-6c-pkg"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Vyf-v6-gmv">
+                <swipeGestureRecognizer direction="right" id="Z3D-md-MyO">
                     <connections>
-                        <action selector="onTap:" destination="BYZ-38-t0r" id="Whe-Ov-EJb"/>
+                        <action selector="handleRightSwipe:" destination="BYZ-38-t0r" id="Fyo-d0-9Ut"/>
                     </connections>
-                </tapGestureRecognizer>
-                <swipeGestureRecognizer direction="right" id="hPk-TN-Qzm"/>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="F2u-Be-TFK">
+                    <connections>
+                        <action selector="handleLeftSwipe:" destination="BYZ-38-t0r" id="sYQ-Zi-g27"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="537.5" y="154.5"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="H6m-8b-sk7">
+            <objects>
+                <viewController id="1tK-26-rs4" customClass="SettingsViewController" customModule="Tippy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="U2g-mG-e9f">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Default Tip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hvT-F9-4l1">
+                                <rect key="frame" x="25" y="104" width="121" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="iMx-NL-aCx">
+                                <rect key="frame" x="294" y="293" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="enableSplitTabsValueChanged:" destination="1tK-26-rs4" eventType="valueChanged" id="8jX-gn-1PT"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="You can split tabs by swiping left or right" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jSU-rO-h7L">
+                                <rect key="frame" x="25" y="323" width="310" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enable Split Tabs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XpZ-uu-Pb1">
+                                <rect key="frame" x="25" y="294" width="190" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Fvb-om-cR8">
+                                <rect key="frame" x="25" y="142" width="318" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="18%"/>
+                                    <segment title="20%"/>
+                                    <segment title="25%"/>
+                                </segments>
+                                <connections>
+                                    <action selector="defaultTipValueChanged:" destination="1tK-26-rs4" eventType="valueChanged" id="P2h-0W-x9g"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Id5-6W-2ne"/>
+                    <connections>
+                        <outlet property="defaultTip" destination="Fvb-om-cR8" id="GbX-96-8fW"/>
+                        <outlet property="enableSplitTabs" destination="iMx-NL-aCx" id="QOy-lp-kdi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GUB-a1-LZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="998.5" y="156.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Bza-hA-rJE">

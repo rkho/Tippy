@@ -19,6 +19,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewDidAppear (_ animated: Bool) {
+        
+        super.viewDidAppear(true)
+        
+        let defaults = UserDefaults.standard
+
+        tipAmount.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIndex")
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -39,6 +49,14 @@ class ViewController: UIViewController {
         
         tipLabel.text = String(format: "%.2f", tip)
         totalLabel.text = String(format: "%.2f", total)
+    }
+    
+    @IBAction func handleRightSwipe(_ sender: Any) {
+        print("RIGHT")
+    }
+    
+    @IBAction func handleLeftSwipe(_ sender: Any) {
+        print("LEFT")
     }
     
     @IBAction func tipValueChanged(_ sender: Any) {
