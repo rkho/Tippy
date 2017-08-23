@@ -27,6 +27,7 @@ class ViewController: UIViewController {
         let defaults = UserDefaults.standard
 
         tipAmount.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIndex")
+        calculateTip(1)
         
     }
 
