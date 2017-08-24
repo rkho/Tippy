@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipAmount: UISegmentedControl!
     @IBOutlet weak var splitLabel: UILabel!
+    var numSplit :Int = 1
+    var splitTabsEnabled :Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,14 @@ class ViewController: UIViewController {
         let defaults = UserDefaults.standard
 
         tipAmount.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIndex")
-        calculateTip(1)
+        splitTabsEnabled = defaults.bool(forKey: "enableSplitTabs")
+        
+        if (!splitTabsEnabled) {
+            numSplit = 1
+            splitLabel.isHidden = true
+        }
+        
+        calculateTip()
         
     }
 
@@ -40,29 +49,48 @@ class ViewController: UIViewController {
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
     }
+    
+    @IBAction func billValueChanged(_ sender: Any) {
+        calculateTip()
+    }
+    
+    
+    @IBAction func handleRightSwipe(_ sender: Any) {
+        if (splitTabsEnabled) {
+            numSplit += 1
+            splitLabel.isHidden = false
+            splitLabel.text = "Split between " + String(numSplit) + " people"
+            calculateTip()
+        }
+    }
+    
+    @IBAction func handleLeftSwipe(_ sender: Any) {
+        if (splitTabsEnabled && numSplit > 1) {
+            numSplit -= 1
+            
+            if (numSplit == 1) {
+                splitLabel.isHidden = true
+            } else {
+                splitLabel.text = "Split between " + String(numSplit) + " people"
+            }
 
-    @IBAction func calculateTip(_ sender: Any) {
-        
+            calculateTip()
+        }
+    }
+    
+    @IBAction func tipValueChanged(_ sender: Any) {
+        calculateTip()
+    }
+    
+    func calculateTip () {
         let tipPercentages = [0.18, 0.2, 0.25]
         
         let bill = Double(billField.text!) ?? 0
         let tip = bill * tipPercentages[tipAmount.selectedSegmentIndex]
-        let total = bill + tip
+        let total:Double = ((bill * tipPercentages[tipAmount.selectedSegmentIndex]) + bill) / Double(numSplit)
         
         tipLabel.text = String(format: "%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
-    }
-    
-    @IBAction func handleRightSwipe(_ sender: Any) {
-        print("RIGHT")
-    }
-    
-    @IBAction func handleLeftSwipe(_ sender: Any) {
-        print("LEFT")
-    }
-    
-    @IBAction func tipValueChanged(_ sender: Any) {
-        calculateTip(1)
     }
 }
 
