@@ -27,10 +27,12 @@ class ViewController: UIViewController {
         
         super.viewDidAppear(true)
         
+        billField.becomeFirstResponder()
         let defaults = UserDefaults.standard
 
         tipAmount.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIndex")
         splitTabsEnabled = defaults.bool(forKey: "enableSplitTabs")
+        billField.text = defaults.string(forKey: "billAmount")
         
         if (!splitTabsEnabled) {
             numSplit = 1
@@ -51,6 +53,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func billValueChanged(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        defaults.set(billField.text, forKey: "billAmount")
+        
+    
         calculateTip()
     }
     
